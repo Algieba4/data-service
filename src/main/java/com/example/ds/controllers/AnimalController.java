@@ -2,7 +2,7 @@ package com.example.ds.controllers;
 
 import com.example.ds.mappers.AnimalDTOMapper;
 import com.example.ds.models.dtos.AnimalDTO;
-import com.example.ds.repositories.AnimalRepository;
+import com.example.ds.services.AnimalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,17 +15,15 @@ import java.util.List;
 @Slf4j
 public class AnimalController {
 
-    private final AnimalDTOMapper animalDTOMapper;
-    private final AnimalRepository animalRepository;
+    private final AnimalService animalService;
 
-    public AnimalController(AnimalDTOMapper animalDTOMapper, AnimalRepository animalRepository) {
-        this.animalDTOMapper = animalDTOMapper;
-        this.animalRepository = animalRepository;
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
     }
 
     @GetMapping("/")
-    public List<AnimalDTO> getAnimals() {
-        return animalRepository.findAll();
+    public List<AnimalDTO> getAllAnimals() {
+        return animalService.getAllAnimals();
     }
 
 }

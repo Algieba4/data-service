@@ -3,6 +3,7 @@ package com.example.ds.controllers;
 import com.example.ds.mappers.EnclosureDTOMapper;
 import com.example.ds.models.dtos.EnclosureDTO;
 import com.example.ds.repositories.EnclosureRepository;
+import com.example.ds.services.EnclosureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +16,14 @@ import java.util.List;
 @Slf4j
 public class EnclosureController {
 
-    private final EnclosureDTOMapper enclosureDTOMapper;
-    private final EnclosureRepository enclosureRepository;
+    private final EnclosureService enclosureService;
 
-    public EnclosureController(EnclosureDTOMapper enclosureDTOMapper, EnclosureRepository enclosureRepository) {
-        this.enclosureDTOMapper = enclosureDTOMapper;
-        this.enclosureRepository = enclosureRepository;
+    public EnclosureController(EnclosureService enclosureService) {
+        this.enclosureService = enclosureService;
     }
 
     @GetMapping("/")
     public List<EnclosureDTO> getEnclosures() {
-        return enclosureRepository.findAll();
+        return enclosureService.getAllEnclosures();
     }
 }
