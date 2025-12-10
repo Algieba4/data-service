@@ -1,6 +1,7 @@
 package com.example.ds.idls;
 
 import com.example.ds.models.entities.Animal;
+import com.example.ds.repositories.AnimalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
@@ -10,14 +11,18 @@ import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
+import java.util.List;
+
 @Component
 @Slf4j
 public class AnimalDataLoader implements CommandLineRunner {
 
+    private final AnimalRepository animalRepository;
     private final JsonMapper jsonMapper;
     private final ResourceLoader resourceLoader;
 
-    public AnimalDataLoader(JsonMapper jsonMapper, ResourceLoader resourceLoader) {
+    public AnimalDataLoader(AnimalRepository animalRepository, JsonMapper jsonMapper, ResourceLoader resourceLoader) {
+        this.animalRepository = animalRepository;
         this.jsonMapper = jsonMapper;
         this.resourceLoader = resourceLoader;
     }
@@ -35,7 +40,8 @@ public class AnimalDataLoader implements CommandLineRunner {
             }
 
             // Using TypeReference here because we're reading in a list of Animals.
-            jsonMapper.readValue(resource.getInputStream(), new TypeReference<Animal>() {});
+            var animals = jsonMapper.readValue(resource.getInputStream(), new TypeReference<List<Animal>>() {});
+            animalRepository.saveAll(animals);
 
         } catch (JacksonException jacksonException) {
             log.error("Error loading Animal Data: {}", jacksonException.getMessage(),  jacksonException);
