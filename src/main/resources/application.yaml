@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: data-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_DATABASE_IP}:3306/${MYSQL_DATABASE_NAME}
+    username: ${MYSQL_DATABASE_USERNAME}
+    password: ${MYSQL_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update

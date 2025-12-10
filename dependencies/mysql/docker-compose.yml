@@ -1,0 +1,18 @@
+# For local-testing, only
+services:
+  mysql-9:
+    image: mysql:9
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_USER=localmysql
+      - MYSQL_PASSWORD=localmysql
+      - MYSQL_DATABASE=mysqldb
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - template-mysql:/var/lib/mysql
+
+volumes:
+  template-mysql:

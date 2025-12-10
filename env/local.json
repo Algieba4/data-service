@@ -1,0 +1,6 @@
+{
+  "MYSQL_DATABASE_IP": "127.0.0.1",
+  "MYSQL_DATABASE_NAME": "mysqldb",
+  "MYSQL_DATABASE_PASSWORD": "localmysql",
+  "MYSQL_DATABASE_USERNAME": "localmysql"
+}
