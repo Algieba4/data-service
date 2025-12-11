@@ -29,6 +29,10 @@ public class AnimalDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        log.debug("Deleting Existing Animal Data...");
+        animalRepository.deleteAll();
+        log.debug("Existing Animal Data Deleted");
+
         log.debug("Loading Animal Data...");
 
         try {
@@ -49,7 +53,7 @@ public class AnimalDataLoader implements CommandLineRunner {
             log.error("Uncaught exception: {}", exception.getMessage(), exception);
         }
 
-        log.debug("Finished loading Animal Data...");
+        log.debug("Finished loading Animal Data");
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.ds.controllers;
 
-import com.example.ds.mappers.AnimalDTOMapper;
 import com.example.ds.models.dtos.AnimalDTO;
 import com.example.ds.services.AnimalService;
 import lombok.extern.slf4j.Slf4j;

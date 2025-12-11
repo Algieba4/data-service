@@ -29,6 +29,11 @@ public class EnclosureDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args)  {
+
+        log.debug("Deleting Existing Enclosure Data...");
+        enclosureRepository.deleteAll();
+        log.debug("Existing Enclosure Data Deleted");
+
         log.debug("Loading Enclosure Data...");
 
         try {

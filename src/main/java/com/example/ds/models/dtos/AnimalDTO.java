@@ -8,8 +8,9 @@ import lombok.Data;
 public class AnimalDTO {
     private Integer id;
     private String name;
-    private String type;
+    private String species;
     private String gender;
     private Integer age;
-    private Integer cage;
+    private Integer enclosure;
+    //private Enclosure enclosure;
 }

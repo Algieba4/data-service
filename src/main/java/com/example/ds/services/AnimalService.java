@@ -5,6 +5,7 @@ import com.example.ds.models.dtos.AnimalDTO;
 import com.example.ds.repositories.AnimalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AnimalService {
         this.animalDTOMapper = animalDTOMapper;
     }
 
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<AnimalDTO> getAllAnimals() {
         return animalRepository.findAll().stream()
             .map(animalDTOMapper::animalToDTO)

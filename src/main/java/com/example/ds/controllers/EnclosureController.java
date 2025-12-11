@@ -1,8 +1,6 @@
 package com.example.ds.controllers;
 
-import com.example.ds.mappers.EnclosureDTOMapper;
 import com.example.ds.models.dtos.EnclosureDTO;
-import com.example.ds.repositories.EnclosureRepository;
 import com.example.ds.services.EnclosureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
