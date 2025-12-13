@@ -1,8 +1,9 @@
-package com.example.ds.controllers;
+package com.example.ds.controllers.enclosures;
 
-import com.example.ds.models.dtos.EnclosureDTO;
+import com.example.ds.enumerations.Biome;
+import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
 import com.example.ds.models.entities.Enclosure;
-import com.example.ds.services.EnclosureService;
+import com.example.ds.services.enclosures.EnclosureService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +46,17 @@ class EnclosureControllerV1Test {
     @Test
     void test_create_and_delete_enclosure() {
         when(enclosureService.createEnclosure(any()))
-            .thenReturn(new EnclosureDTO(1, "Jungle", 100.00, 100.00));
+            .thenReturn(new EnclosureDTOV1(1, Biome.JUNGLE, 100.00, 100.00));
 
         restTestClient.post()
             .uri("/api/v1/enclosure/")
             .contentType(MediaType.APPLICATION_JSON)
-            .body(new EnclosureDTO(1, "Jungle", 100.00, 100.00))
+            .body(new EnclosureDTOV1(1, Biome.JUNGLE, 100.00, 100.00))
             .exchange()
             .expectStatus().isOk()
             .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
             .expectBody()
-                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.biome").isEqualTo(Biome.JUNGLE.toString())
                 .jsonPath("$.length").isEqualTo(100.00)
                 .jsonPath("$.width").isEqualTo(100.00);
 
@@ -69,7 +70,7 @@ class EnclosureControllerV1Test {
     @Test
     void test_get_all_enclosures() {
         when(enclosureService.getAllEnclosures()).thenReturn(
-            List.of(new EnclosureDTO(1, "Jungle", 100.00, 100.00))
+            List.of(new EnclosureDTOV1(1, Biome.JUNGLE, 100.00, 100.00))
         );
 
         var enclosures = restTestClient.get()
@@ -82,13 +83,13 @@ class EnclosureControllerV1Test {
 
         assertNotNull(enclosures);
         assertEquals(1, enclosures.size());
-        assertEquals("Jungle", enclosures.getFirst().getHabitat());
+        assertEquals(Biome.JUNGLE, enclosures.getFirst().getBiome());
     }
 
     @Test
     void test_get_enclosure() {
         when(enclosureService.getEnclosure(1)).thenReturn(
-            new EnclosureDTO(1, "Jungle", 100.00, 100.00)
+            new EnclosureDTOV1(1, Biome.JUNGLE, 100.00, 100.00)
         );
 
         restTestClient.get()
@@ -96,7 +97,7 @@ class EnclosureControllerV1Test {
             .exchange()
             .expectStatus().isOk()
             .expectBody()
-                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.biome").isEqualTo(Biome.JUNGLE.toString())
                 .jsonPath("$.length").isEqualTo(100.00)
                 .jsonPath("$.width").isEqualTo(100.00);
 
@@ -104,9 +105,9 @@ class EnclosureControllerV1Test {
 
     @Test
     void test_update_enclosure() {
-        var updatedEnclosure = new EnclosureDTO(1, "Jungle", 150.00, 150.00);
+        var updatedEnclosure = new EnclosureDTOV1(1, Biome.JUNGLE, 150.00, 150.00);
 
-        when(enclosureService.updateEnclosure(eq(1), any(EnclosureDTO.class)))
+        when(enclosureService.updateEnclosure(eq(1), any(EnclosureDTOV1.class)))
             .thenReturn(updatedEnclosure);
 
         restTestClient.put()
@@ -117,7 +118,7 @@ class EnclosureControllerV1Test {
             .expectStatus().isOk()
             .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
             .expectBody()
-                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.biome").isEqualTo(Biome.JUNGLE.toString())
                 .jsonPath("$.length").isEqualTo(150.00)
                 .jsonPath("$.width").isEqualTo(150.00);
     }

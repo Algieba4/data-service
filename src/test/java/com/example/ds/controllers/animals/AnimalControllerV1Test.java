@@ -1,8 +1,8 @@
-package com.example.ds.controllers;
+package com.example.ds.controllers.animals;
 
-import com.example.ds.models.dtos.AnimalDTO;
+import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.models.entities.Animal;
-import com.example.ds.services.AnimalService;
+import com.example.ds.services.animals.AnimalServiceV1;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,10 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(AnimalControllerV1.class)
 class AnimalControllerV1Test {
 
+    AnimalDTOV1 animalDTOV1;
+
     @MockitoBean
-    AnimalService animalService;
+    AnimalServiceV1 animalServiceV1;
 
     @Autowired
     MockMvc mockMvc;
@@ -39,20 +41,21 @@ class AnimalControllerV1Test {
 
     @BeforeEach
     void setUp() {
+        animalDTOV1 = new AnimalDTOV1(
+            1, "Tundra", "Female", "Tiger", 5, 1
+        );
         restTestClient = RestTestClient.bindTo(mockMvc).build();
     }
 
     @Test
     void test_create_and_delete_animal() {
-        when(animalService.createAnimal(any()))
-            .thenReturn(new AnimalDTO(
-                1, "Tundra", "Tiger", "Female", 5, 1
-            ));
+        when(animalServiceV1.createAnimal(any()))
+            .thenReturn(animalDTOV1);
 
         restTestClient.post()
             .uri("/api/v1/animal/")
             .contentType(MediaType.APPLICATION_JSON)
-            .body(new AnimalDTO(null, "Tundra", "Tiger", "Female", 5, 1))
+            .body(new AnimalDTOV1(null, "Tundra", "Female", "Tiger", 5, 1))
             .exchange()
             .expectStatus().isOk()
             .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
@@ -72,8 +75,8 @@ class AnimalControllerV1Test {
 
     @Test
     void test_get_all_animals() {
-        when(animalService.getAllAnimals()).thenReturn(
-            List.of(new AnimalDTO(1, "Tundra", "Tiger", "Female", 5, 1))
+        when(animalServiceV1.getAllAnimals()).thenReturn(
+            List.of(animalDTOV1)
         );
 
         var animals = restTestClient.get()
@@ -91,9 +94,7 @@ class AnimalControllerV1Test {
 
     @Test
     void test_get_animal() {
-        when(animalService.getAnimal(1)).thenReturn(
-            new AnimalDTO(1, "Tundra", "Tiger", "Female", 5, 1)
-        );
+        when(animalServiceV1.getAnimal(1)).thenReturn(animalDTOV1);
 
         restTestClient.get()
             .uri("/api/v1/animal/{id}", 1)
@@ -109,11 +110,11 @@ class AnimalControllerV1Test {
 
     @Test
     void test_update_animal() {
-        var updatedAnimal = new AnimalDTO(
-            1, "Tundra", "Tiger", "Female", 6, 1
+        var updatedAnimal = new AnimalDTOV1(
+            1, "Tundra", "Female", "Tiger", 6, 1
         );
 
-        when(animalService.updateAnimal(eq(1), any(AnimalDTO.class)))
+        when(animalServiceV1.updateAnimal(eq(1), any(AnimalDTOV1.class)))
             .thenReturn(updatedAnimal);
 
         restTestClient.put()

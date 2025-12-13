@@ -1,1 +1,4 @@
-[{"habitat":"Jungle","length":100.00,"width":100.00},{"habitat":"Savanna","length":100.00,"width":100.00}]
+[
+  {"biome":"JUNGLE","length":100.00,"width":100.00},
+  {"biome":"SAVANNAH","length":100.00,"width":100.00}
+]

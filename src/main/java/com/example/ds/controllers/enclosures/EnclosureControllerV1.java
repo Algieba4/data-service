@@ -1,7 +1,7 @@
-package com.example.ds.controllers;
+package com.example.ds.controllers.enclosures;
 
-import com.example.ds.models.dtos.EnclosureDTO;
-import com.example.ds.services.EnclosureService;
+import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
+import com.example.ds.services.enclosures.EnclosureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +17,24 @@ public class EnclosureControllerV1 {
     private final EnclosureService enclosureService;
 
     @GetMapping("/")
-    public List<EnclosureDTO> getAllEnclosures() {
+    public List<EnclosureDTOV1> getAllEnclosures() {
         return enclosureService.getAllEnclosures();
     }
 
     @GetMapping("/{id}")
-    public EnclosureDTO getEnclosure(@PathVariable Integer id) {
+    public EnclosureDTOV1 getEnclosure(@PathVariable Integer id) {
         return enclosureService.getEnclosure(id);
     }
 
     @PostMapping("/")
-    public EnclosureDTO createEnclosure(@RequestBody EnclosureDTO dto) {
+    public EnclosureDTOV1 createEnclosure(@RequestBody EnclosureDTOV1 dto) {
         return enclosureService.createEnclosure(dto);
     }
 
     @PutMapping("/{id}")
-    public EnclosureDTO updateEnclosure(
+    public EnclosureDTOV1 updateEnclosure(
         @PathVariable Integer id,
-        @RequestBody EnclosureDTO dto
+        @RequestBody EnclosureDTOV1 dto
     ) {
         return enclosureService.updateEnclosure(id, dto);
     }

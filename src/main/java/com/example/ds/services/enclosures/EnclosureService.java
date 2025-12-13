@@ -1,7 +1,7 @@
-package com.example.ds.services;
+package com.example.ds.services.enclosures;
 
 import com.example.ds.mappers.EnclosureDTOMapper;
-import com.example.ds.models.dtos.EnclosureDTO;
+import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
 import com.example.ds.models.entities.Enclosure;
 import com.example.ds.repositories.EnclosureRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class EnclosureService {
     private final EnclosureRepository enclosureRepository;
     private final EnclosureDTOMapper enclosureDTOMapper;
 
-    public EnclosureDTO createEnclosure(EnclosureDTO dto) {
+    public EnclosureDTOV1 createEnclosure(EnclosureDTOV1 dto) {
         Enclosure enclosure = enclosureDTOMapper.dtoToEnclosure(dto);
         Enclosure saved = enclosureRepository.save(enclosure);
         return enclosureDTOMapper.enclosureToDTO(saved);
@@ -30,25 +30,25 @@ public class EnclosureService {
     }
 
     @Transactional(readOnly = true)
-    public List<EnclosureDTO> getAllEnclosures() {
+    public List<EnclosureDTOV1> getAllEnclosures() {
         return enclosureRepository.findAll().stream()
             .map(enclosureDTOMapper::enclosureToDTO)
             .toList();
     }
 
     @Transactional(readOnly = true)
-    public EnclosureDTO getEnclosure(Integer id) {
+    public EnclosureDTOV1 getEnclosure(Integer id) {
         Enclosure enclosure = enclosureRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Enclosure not found"));
 
         return enclosureDTOMapper.enclosureToDTO(enclosure);
     }
 
-    public EnclosureDTO updateEnclosure(Integer id, EnclosureDTO dto) {
+    public EnclosureDTOV1 updateEnclosure(Integer id, EnclosureDTOV1 dto) {
         Enclosure currentEnclosure = enclosureRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Animal not found"));
 
-        currentEnclosure.setHabitat(dto.habitat());
+        currentEnclosure.setBiome(dto.biome());
         currentEnclosure.setWidth(dto.width());
         currentEnclosure.setLength(dto.length());
 

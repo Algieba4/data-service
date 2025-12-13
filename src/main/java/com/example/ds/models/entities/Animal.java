@@ -1,5 +1,6 @@
 package com.example.ds.models.entities;
 
+import com.example.ds.enumerations.AnimalStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,12 @@ public class Animal {
     private Integer id;
 
     private String name;
-    private String species;
     private String sex;
+    private String species;
+    private AnimalStatus status;
     private Integer age;
     private Integer enclosure;
+
 }
+
+

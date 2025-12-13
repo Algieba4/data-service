@@ -1,1 +1,6 @@
-[{"name":"Tundra","species":"Tiger","sex":"Female","age":5,"enclosure":1},{"name":"Rajah","species":"Tiger","sex":"Male","age":5,"enclosure":1},{"name":"Nala","species":"Lion","sex":"Female","age":5,"enclosure":2},{"name":"Simba","species":"Lion","sex":"Male","age":5,"enclosure":2}]
+[
+  {"name":"Tundra","species":"Tiger","sex":"Female","age":5,"enclosure":1},
+  {"name":"Rajah","species":"Tiger","sex":"Male","age":5,"enclosure":1},
+  {"name":"Nala","species":"Lion","sex":"Female","age":5,"enclosure":2},
+  {"name":"Simba","species":"Lion","sex":"Male","age":5,"enclosure":2}
+]

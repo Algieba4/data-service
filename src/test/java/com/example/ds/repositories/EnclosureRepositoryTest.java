@@ -1,5 +1,6 @@
 package com.example.ds.repositories;
 
+import com.example.ds.enumerations.Biome;
 import com.example.ds.models.entities.Enclosure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class EnclosureRepositoryTest {
     @BeforeEach
     void setup() {
         enclosure = new Enclosure();
-        enclosure.setHabitat("Jungle");
+        enclosure.setBiome(Biome.JUNGLE);
         enclosure.setLength(100.00);
         enclosure.setWidth(100.00);
     }
@@ -38,7 +39,7 @@ class EnclosureRepositoryTest {
         Optional<Enclosure> found = enclosureRepository.findById(saved.getId());
 
         assertThat(found).isPresent();
-        assertThat(found.get().getHabitat()).isEqualTo("Jungle");
+        assertThat(found.get().getBiome()).isEqualTo(Biome.JUNGLE);
     }
 
     @Test
@@ -52,11 +53,11 @@ class EnclosureRepositoryTest {
     @Test
     void test_update_enclosure_in_database() {
         Enclosure saved = enclosureRepository.save(enclosure);
-        saved.setHabitat("Grasslands");
+        saved.setBiome(Biome.GRASSLAND);
         Enclosure newRecord = enclosureRepository.save(saved);
 
         assertThat(newRecord.getId()).isNotNull();
-        assertThat(newRecord.getHabitat()).isEqualTo("Grasslands");
+        assertThat(newRecord.getBiome()).isEqualTo(Biome.GRASSLAND);
     }
 
 

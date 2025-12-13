@@ -1,5 +1,6 @@
 package com.example.ds.models.entities;
 
+import com.example.ds.enumerations.Biome;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ public class Enclosure {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String habitat;
+    private Biome biome;
     private Double length;
     private Double width;
 }

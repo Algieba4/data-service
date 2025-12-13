@@ -1,7 +1,7 @@
-package com.example.ds.services;
+package com.example.ds.services.animals;
 
 import com.example.ds.mappers.AnimalDTOMapper;
-import com.example.ds.models.dtos.AnimalDTO;
+import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.repositories.AnimalRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class AnimalService {
+public class AnimalServiceV1 {
 
     private final AnimalRepository animalRepository;
     private final AnimalDTOMapper animalDTOMapper;
 
-    public AnimalDTO createAnimal(AnimalDTO dto) {
-        Animal animal = animalDTOMapper.dtoToAnimal(dto);
+    public AnimalDTOV1 createAnimal(AnimalDTOV1 dto) {
+        Animal animal = animalDTOMapper.dtoV1ToAnimal(dto);
         Animal saved = animalRepository.save(animal);
-        return animalDTOMapper.animalToDTO(saved);
+        return animalDTOMapper.animalToDTOV1(saved);
     }
 
     public void deleteAnimal(Integer id) {
@@ -30,21 +30,21 @@ public class AnimalService {
     }
 
     @Transactional(readOnly = true)
-    public List<AnimalDTO> getAllAnimals() {
+    public List<AnimalDTOV1> getAllAnimals() {
         return animalRepository.findAll().stream()
-            .map(animalDTOMapper::animalToDTO)
+            .map(animalDTOMapper::animalToDTOV1)
             .toList();
     }
 
     @Transactional(readOnly = true)
-    public AnimalDTO getAnimal(Integer id) {
+    public AnimalDTOV1 getAnimal(Integer id) {
         Animal animal = animalRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Animal not found"));
 
-        return animalDTOMapper.animalToDTO(animal);
+        return animalDTOMapper.animalToDTOV1(animal);
     }
 
-    public AnimalDTO updateAnimal(Integer id, AnimalDTO dto) {
+    public AnimalDTOV1 updateAnimal(Integer id, AnimalDTOV1 dto) {
         Animal currentAnimal = animalRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Animal not found"));
 
@@ -55,7 +55,7 @@ public class AnimalService {
         currentAnimal.setEnclosure(dto.enclosure());
 
         Animal updatedAnimal = animalRepository.save(currentAnimal);
-        return animalDTOMapper.animalToDTO(updatedAnimal);
+        return animalDTOMapper.animalToDTOV1(updatedAnimal);
     }
 
 }

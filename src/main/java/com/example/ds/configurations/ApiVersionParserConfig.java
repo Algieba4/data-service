@@ -1,5 +1,15 @@
 package com.example.ds.configurations;
 
+/**
+ * Used to convert a given API version into the expected version.
+ * If the version starts with a 'v' or 'V', it'll remove it as we don't expect alphabetic values
+ * If the version is missing a "minor" version, we append it
+ *  Examples:
+ *      /api/2/animal -> /api/2.0/animal
+ *      /api/2.0/animal -> /api/2.0/animal
+ *      /api/v2/animal -> /api/2.0/animal
+ *      /api/V2/animal -> /api/2.0/animal
+ */
 public class ApiVersionParserConfig implements org.springframework.web.accept.ApiVersionParser {
 
     @Override

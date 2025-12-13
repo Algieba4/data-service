@@ -1,10 +1,10 @@
-package com.example.ds.models.dtos;
+package com.example.ds.models.dtos.animals;
 
-public record AnimalDTO(
+public record AnimalDTOV1(
     Integer id,
     String name,
-    String species,
     String sex,
+    String species,
     Integer age,
     Integer enclosure
 ) {}
