@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.client.RestTestClient;
@@ -16,6 +17,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
@@ -40,7 +43,31 @@ class EnclosureControllerV1Test {
     }
 
     @Test
-    void test_get_all_enclosures_webservice_v1() {
+    void test_create_and_delete_enclosure() {
+        when(enclosureService.createEnclosure(any()))
+            .thenReturn(new EnclosureDTO(1, "Jungle", 100.00, 100.00));
+
+        restTestClient.post()
+            .uri("/api/v1/enclosure/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(new EnclosureDTO(1, "Jungle", 100.00, 100.00))
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            .expectBody()
+                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.length").isEqualTo(100.00)
+                .jsonPath("$.width").isEqualTo(100.00);
+
+        restTestClient.delete()
+            .uri("/api/v1/enclosure/1")
+            .exchange()
+            .expectStatus().isOk();
+
+    }
+
+    @Test
+    void test_get_all_enclosures() {
         when(enclosureService.getAllEnclosures()).thenReturn(
             List.of(new EnclosureDTO(1, "Jungle", 100.00, 100.00))
         );
@@ -56,6 +83,43 @@ class EnclosureControllerV1Test {
         assertNotNull(enclosures);
         assertEquals(1, enclosures.size());
         assertEquals("Jungle", enclosures.getFirst().getHabitat());
+    }
+
+    @Test
+    void test_get_enclosure() {
+        when(enclosureService.getEnclosure(1)).thenReturn(
+            new EnclosureDTO(1, "Jungle", 100.00, 100.00)
+        );
+
+        restTestClient.get()
+            .uri("/api/v1/enclosure/{id}", 1)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.length").isEqualTo(100.00)
+                .jsonPath("$.width").isEqualTo(100.00);
+
+    }
+
+    @Test
+    void test_update_enclosure() {
+        var updatedEnclosure = new EnclosureDTO(1, "Jungle", 150.00, 150.00);
+
+        when(enclosureService.updateEnclosure(eq(1), any(EnclosureDTO.class)))
+            .thenReturn(updatedEnclosure);
+
+        restTestClient.put()
+            .uri("/api/v1/enclosure/{id}", 1)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(updatedEnclosure)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            .expectBody()
+                .jsonPath("$.habitat").isEqualTo("Jungle")
+                .jsonPath("$.length").isEqualTo(150.00)
+                .jsonPath("$.width").isEqualTo(150.00);
     }
 
 }

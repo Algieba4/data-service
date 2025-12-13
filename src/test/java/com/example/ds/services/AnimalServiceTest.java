@@ -43,6 +43,29 @@ class AnimalServiceTest {
     }
 
     @Test
+    void test_create_animal() {
+        AnimalDTO animalDTO = new AnimalDTO(
+            null, "Tundra", "Tiger", "Female", 5, 1
+        );
+
+        Animal savedAnimal = new Animal();
+        savedAnimal.setId(1);
+        savedAnimal.setName("Tundra");
+
+        when(animalDTOMapper.dtoToAnimal(animalDTO)).thenReturn(animal);
+        when(animalRepository.save(animal)).thenReturn(savedAnimal);
+        when(animalDTOMapper.animalToDTO(savedAnimal))
+            .thenReturn(new AnimalDTO(1, "Tundra", "Tiger", "Female", 5, 1));
+
+        AnimalDTO result = animalService.createAnimal(animalDTO);
+
+        assertThat(result.id()).isEqualTo(1);
+        verify(animalDTOMapper).dtoToAnimal(animalDTO);
+        verify(animalRepository).save(animal);
+        verify(animalDTOMapper).animalToDTO(savedAnimal);
+    }
+
+    @Test
     void test_get_all_animals_service() {
         when(animalRepository.findAll()).thenReturn(List.of(animal));
 

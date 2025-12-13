@@ -26,7 +26,7 @@ public class EnclosureControllerV1 {
         return enclosureService.getEnclosure(id);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public EnclosureDTO createEnclosure(@RequestBody EnclosureDTO dto) {
         return enclosureService.createEnclosure(dto);
     }

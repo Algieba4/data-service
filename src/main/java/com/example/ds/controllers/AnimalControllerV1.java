@@ -26,7 +26,7 @@ public class AnimalControllerV1 {
         return animalService.getAnimal(id);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public AnimalDTO createAnimal(@RequestBody AnimalDTO dto) {
         return animalService.createAnimal(dto);
     }
