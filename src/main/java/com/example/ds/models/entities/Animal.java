@@ -15,11 +15,7 @@ public class Animal {
 
     private String name;
     private String species;
-    private String gender;
+    private String sex;
     private Integer age;
     private Integer enclosure;
-
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "enclosure_id")
-    //private Enclosure enclosure;
 }

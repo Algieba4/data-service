@@ -2,8 +2,10 @@ package com.example.ds.idls;
 
 import com.example.ds.models.entities.Animal;
 import com.example.ds.repositories.AnimalRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -14,21 +16,16 @@ import tools.jackson.databind.json.JsonMapper;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class AnimalDataLoader implements CommandLineRunner {
+public class AnimalDataLoader {
 
     private final AnimalRepository animalRepository;
     private final JsonMapper jsonMapper;
     private final ResourceLoader resourceLoader;
 
-    public AnimalDataLoader(AnimalRepository animalRepository, JsonMapper jsonMapper, ResourceLoader resourceLoader) {
-        this.animalRepository = animalRepository;
-        this.jsonMapper = jsonMapper;
-        this.resourceLoader = resourceLoader;
-    }
-
-    @Override
-    public void run(String... args) {
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadData() {
         log.debug("Deleting Existing Animal Data...");
         animalRepository.deleteAll();
         log.debug("Existing Animal Data Deleted");

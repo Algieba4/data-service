@@ -1,6 +1,6 @@
 package com.example.ds.configurations;
 
-public class ApiVersionParser implements org.springframework.web.accept.ApiVersionParser {
+public class ApiVersionParserConfig implements org.springframework.web.accept.ApiVersionParser {
 
     @Override
     public Comparable parseVersion(String version) {

@@ -2,8 +2,10 @@ package com.example.ds.idls;
 
 import com.example.ds.models.entities.Enclosure;
 import com.example.ds.repositories.EnclosureRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -14,21 +16,16 @@ import tools.jackson.databind.json.JsonMapper;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
-public class EnclosureDataLoader implements CommandLineRunner {
+public class EnclosureDataLoader {
 
     private final EnclosureRepository enclosureRepository;
     private final JsonMapper jsonMapper;
     private final ResourceLoader resourceLoader;
 
-    public EnclosureDataLoader(EnclosureRepository enclosureRepository, JsonMapper jsonMapper, ResourceLoader resourceLoader) {
-        this.enclosureRepository = enclosureRepository;
-        this.jsonMapper = jsonMapper;
-        this.resourceLoader = resourceLoader;
-    }
-
-    @Override
-    public void run(String... args)  {
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadData() {
 
         log.debug("Deleting Existing Enclosure Data...");
         enclosureRepository.deleteAll();
