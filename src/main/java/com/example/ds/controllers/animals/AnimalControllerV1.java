@@ -1,5 +1,6 @@
 package com.example.ds.controllers.animals;
 
+import com.example.ds.metrics.AnimalMetrics;
 import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.services.animals.AnimalServiceV1;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +15,24 @@ import java.util.List;
 @Slf4j
 public class AnimalControllerV1 {
 
+    private final AnimalMetrics animalMetrics;
     private final AnimalServiceV1 animalServiceV1;
 
     @GetMapping("/")
     public List<AnimalDTOV1> getAllAnimals() {
+        animalMetrics.incrementTotalAnimalCalls("v1");
         return animalServiceV1.getAllAnimals();
     }
 
     @GetMapping("/{id}")
     public AnimalDTOV1 getAnimal(@PathVariable Integer id) {
+        animalMetrics.incrementTotalAnimalCalls("v1");
         return animalServiceV1.getAnimal(id);
     }
 
     @PostMapping("/")
     public AnimalDTOV1 createAnimal(@RequestBody AnimalDTOV1 dto) {
+        animalMetrics.incrementTotalAnimalCalls("v1");
         return animalServiceV1.createAnimal(dto);
     }
 
@@ -36,11 +41,13 @@ public class AnimalControllerV1 {
         @PathVariable Integer id,
         @RequestBody AnimalDTOV1 dto
     ) {
+        animalMetrics.incrementTotalAnimalCalls("v1");
         return animalServiceV1.updateAnimal(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAnimal(@PathVariable Integer id) {
+        animalMetrics.incrementTotalAnimalCalls("v1");
         animalServiceV1.deleteAnimal(id);
     }
 

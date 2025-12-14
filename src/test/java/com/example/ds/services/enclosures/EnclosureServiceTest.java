@@ -1,6 +1,7 @@
 package com.example.ds.services.enclosures;
 
 import com.example.ds.enumerations.Biome;
+import com.example.ds.mappers.AnimalDTOMapper;
 import com.example.ds.mappers.EnclosureDTOMapper;
 import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
 import com.example.ds.models.entities.Enclosure;
@@ -8,8 +9,10 @@ import com.example.ds.repositories.EnclosureRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -24,8 +27,8 @@ class EnclosureServiceTest {
 
     Enclosure enclosure;
 
-    @Mock
-    EnclosureDTOMapper enclosureDTOMapper;
+    @Spy
+    EnclosureDTOMapper enclosureDTOMapper = Mappers.getMapper(EnclosureDTOMapper.class);
 
     @Mock
     EnclosureRepository enclosureRepository;

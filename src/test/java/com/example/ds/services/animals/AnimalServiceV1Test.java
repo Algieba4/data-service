@@ -7,8 +7,10 @@ import com.example.ds.repositories.AnimalRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -23,8 +25,8 @@ class AnimalServiceV1Test {
 
     Animal animal;
 
-    @Mock
-    AnimalDTOMapper animalDTOMapper;
+    @Spy
+    AnimalDTOMapper animalDTOMapper = Mappers.getMapper(AnimalDTOMapper.class);
 
     @Mock
     AnimalRepository animalRepository;

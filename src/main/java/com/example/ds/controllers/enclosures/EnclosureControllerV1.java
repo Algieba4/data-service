@@ -1,5 +1,6 @@
 package com.example.ds.controllers.enclosures;
 
+import com.example.ds.metrics.EnclosureMetrics;
 import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
 import com.example.ds.services.enclosures.EnclosureService;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +15,24 @@ import java.util.List;
 @Slf4j
 public class EnclosureControllerV1 {
 
+    private final EnclosureMetrics enclosureMetrics;
     private final EnclosureService enclosureService;
 
     @GetMapping("/")
     public List<EnclosureDTOV1> getAllEnclosures() {
+        enclosureMetrics.incrementTotalEnclosureCalls("v1");
         return enclosureService.getAllEnclosures();
     }
 
     @GetMapping("/{id}")
     public EnclosureDTOV1 getEnclosure(@PathVariable Integer id) {
+        enclosureMetrics.incrementTotalEnclosureCalls("v1");
         return enclosureService.getEnclosure(id);
     }
 
     @PostMapping("/")
     public EnclosureDTOV1 createEnclosure(@RequestBody EnclosureDTOV1 dto) {
+        enclosureMetrics.incrementTotalEnclosureCalls("v1");
         return enclosureService.createEnclosure(dto);
     }
 
@@ -36,11 +41,13 @@ public class EnclosureControllerV1 {
         @PathVariable Integer id,
         @RequestBody EnclosureDTOV1 dto
     ) {
+        enclosureMetrics.incrementTotalEnclosureCalls("v1");
         return enclosureService.updateEnclosure(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteEnclosure(@PathVariable Integer id) {
+        enclosureMetrics.incrementTotalEnclosureCalls("v1");
         enclosureService.deleteEnclosure(id);
     }
 }

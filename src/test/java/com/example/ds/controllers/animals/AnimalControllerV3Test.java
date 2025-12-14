@@ -1,6 +1,7 @@
 package com.example.ds.controllers.animals;
 
 import com.example.ds.enumerations.AnimalStatus;
+import com.example.ds.metrics.AnimalMetrics;
 import com.example.ds.models.dtos.animals.AnimalDTOV3;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.services.animals.AnimalServiceV3;
@@ -31,6 +32,9 @@ import static org.mockito.Mockito.when;
 class AnimalControllerV3Test {
 
     AnimalDTOV3 animalDTOV3;
+
+    @MockitoBean
+    AnimalMetrics animalMetrics;
 
     @MockitoBean
     AnimalServiceV3 animalServiceV3;

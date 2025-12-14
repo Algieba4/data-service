@@ -1,6 +1,7 @@
 package com.example.ds.controllers.enclosures;
 
 import com.example.ds.enumerations.Biome;
+import com.example.ds.metrics.EnclosureMetrics;
 import com.example.ds.models.dtos.enclosures.EnclosureDTOV1;
 import com.example.ds.models.entities.Enclosure;
 import com.example.ds.services.enclosures.EnclosureService;
@@ -29,6 +30,9 @@ import static org.mockito.Mockito.when;
  */
 @WebMvcTest(EnclosureControllerV1.class)
 class EnclosureControllerV1Test {
+
+    @MockitoBean
+    EnclosureMetrics enclosureMetrics;
 
     @MockitoBean
     EnclosureService enclosureService;
@@ -64,6 +68,7 @@ class EnclosureControllerV1Test {
             .uri("/api/v1/enclosure/1")
             .exchange()
             .expectStatus().isOk();
+
 
     }
 

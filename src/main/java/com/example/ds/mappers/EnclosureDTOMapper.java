@@ -8,5 +8,4 @@ import org.mapstruct.Mapper;
 public interface EnclosureDTOMapper {
     EnclosureDTOV1 enclosureToDTO(Enclosure enclosure);
     Enclosure dtoToEnclosure(EnclosureDTOV1 enclosureDTO);
-
 }

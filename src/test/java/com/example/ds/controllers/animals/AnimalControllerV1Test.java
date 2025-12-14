@@ -1,8 +1,12 @@
 package com.example.ds.controllers.animals;
 
+import com.example.ds.metrics.AnimalMetrics;
 import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.services.animals.AnimalServiceV1;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +35,9 @@ import static org.mockito.Mockito.when;
 class AnimalControllerV1Test {
 
     AnimalDTOV1 animalDTOV1;
+
+    @MockitoBean
+    AnimalMetrics animalMetrics;
 
     @MockitoBean
     AnimalServiceV1 animalServiceV1;
