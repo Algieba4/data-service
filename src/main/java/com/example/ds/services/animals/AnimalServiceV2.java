@@ -1,7 +1,6 @@
 package com.example.ds.services.animals;
 
 import com.example.ds.mappers.AnimalDTOMapper;
-import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.models.dtos.animals.AnimalDTOV2;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.repositories.AnimalRepository;
@@ -52,7 +51,6 @@ public class AnimalServiceV2 {
         currentAnimal.setName(dto.name());
         currentAnimal.setSpecies(dto.species());
         currentAnimal.setSex(dto.sex());
-        currentAnimal.setStatus(dto.status());
         currentAnimal.setAge(dto.age());
         currentAnimal.setEnclosure(dto.enclosure());
 

@@ -2,6 +2,7 @@ package com.example.ds.mappers;
 
 import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.models.dtos.animals.AnimalDTOV2;
+import com.example.ds.models.dtos.animals.AnimalDTOV3;
 import com.example.ds.models.entities.Animal;
 import org.mapstruct.Mapper;
 
@@ -12,4 +13,7 @@ public interface AnimalDTOMapper {
 
     AnimalDTOV2 animalToDTOV2(Animal animal);
     Animal dtoV2ToAnimal(AnimalDTOV2 animalDTO);
+
+    AnimalDTOV3 animalToDTOV3(Animal animal);
+    Animal dtoV3ToAnimal(AnimalDTOV3 animalDTO);
 }

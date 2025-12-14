@@ -9,3 +9,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+springdoc:
+  api-docs.enabled: true
+  swagger-ui.supported-submit-methods: [] # Disables "try it out" in the UI

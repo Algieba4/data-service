@@ -1,7 +1,7 @@
 package com.example.ds.services.animals;
 
 import com.example.ds.mappers.AnimalDTOMapper;
-import com.example.ds.models.dtos.animals.AnimalDTOV2;
+import com.example.ds.models.dtos.animals.AnimalDTOV3;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.repositories.AnimalRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +19,10 @@ public class AnimalServiceV3 {
     private final AnimalRepository animalRepository;
     private final AnimalDTOMapper animalDTOMapper;
 
-    public AnimalDTOV2 createAnimal(AnimalDTOV2 dto) {
-        Animal animal = animalDTOMapper.dtoV2ToAnimal(dto);
+    public AnimalDTOV3 createAnimal(AnimalDTOV3 dto) {
+        Animal animal = animalDTOMapper.dtoV3ToAnimal(dto);
         Animal saved = animalRepository.save(animal);
-        return animalDTOMapper.animalToDTOV2(saved);
+        return animalDTOMapper.animalToDTOV3(saved);
     }
 
     public void deleteAnimal(Integer id) {
@@ -30,21 +30,21 @@ public class AnimalServiceV3 {
     }
 
     @Transactional(readOnly = true)
-    public List<AnimalDTOV2> getAllAnimals() {
+    public List<AnimalDTOV3> getAllAnimals() {
         return animalRepository.findAll().stream()
-            .map(animalDTOMapper::animalToDTOV2)
+            .map(animalDTOMapper::animalToDTOV3)
             .toList();
     }
 
     @Transactional(readOnly = true)
-    public AnimalDTOV2 getAnimal(Integer id) {
+    public AnimalDTOV3 getAnimal(Integer id) {
         Animal animal = animalRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Animal not found"));
 
-        return animalDTOMapper.animalToDTOV2(animal);
+        return animalDTOMapper.animalToDTOV3(animal);
     }
 
-    public AnimalDTOV2 updateAnimal(Integer id, AnimalDTOV2 dto) {
+    public AnimalDTOV3 updateAnimal(Integer id, AnimalDTOV3 dto) {
         Animal currentAnimal = animalRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Animal not found"));
 
@@ -56,7 +56,7 @@ public class AnimalServiceV3 {
         currentAnimal.setEnclosure(dto.enclosure());
 
         Animal updatedAnimal = animalRepository.save(currentAnimal);
-        return animalDTOMapper.animalToDTOV2(updatedAnimal);
+        return animalDTOMapper.animalToDTOV3(updatedAnimal);
     }
 
 }

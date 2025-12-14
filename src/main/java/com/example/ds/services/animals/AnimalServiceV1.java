@@ -52,7 +52,6 @@ public class AnimalServiceV1 {
         currentAnimal.setSpecies(dto.species());
         currentAnimal.setSex(dto.sex());
         currentAnimal.setAge(dto.age());
-        currentAnimal.setEnclosure(dto.enclosure());
 
         Animal updatedAnimal = animalRepository.save(currentAnimal);
         return animalDTOMapper.animalToDTOV1(updatedAnimal);

@@ -1,7 +1,8 @@
 package com.example.ds.services.animals;
 
+import com.example.ds.enumerations.AnimalStatus;
 import com.example.ds.mappers.AnimalDTOMapper;
-import com.example.ds.models.dtos.animals.AnimalDTOV1;
+import com.example.ds.models.dtos.animals.AnimalDTOV3;
 import com.example.ds.models.entities.Animal;
 import com.example.ds.repositories.AnimalRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AnimalServiceV1Test {
+class AnimalServiceV3Test {
 
     Animal animal;
 
@@ -30,7 +29,7 @@ class AnimalServiceV1Test {
     AnimalRepository animalRepository;
 
     @InjectMocks
-    AnimalServiceV1 animalServiceV1;
+    AnimalServiceV3 animalService;
 
     @BeforeEach
     void setup() {
@@ -44,33 +43,35 @@ class AnimalServiceV1Test {
 
     @Test
     void test_create_animal() {
-        AnimalDTOV1 animalDTOV1 = new AnimalDTOV1(null, "Tundra", "Tiger", "Female", 5);
+        var animalDTO = new AnimalDTOV3(
+            null, "Tundra",  "Female", "Tiger", AnimalStatus.HEALTHY, 5, 1
+        );
 
         Animal savedAnimal = new Animal();
         savedAnimal.setId(1);
         savedAnimal.setName("Tundra");
 
-        when(animalDTOMapper.dtoV1ToAnimal(animalDTOV1)).thenReturn(animal);
+        when(animalDTOMapper.dtoV3ToAnimal(animalDTO)).thenReturn(animal);
         when(animalRepository.save(animal)).thenReturn(savedAnimal);
-        when(animalDTOMapper.animalToDTOV1(savedAnimal))
-            .thenReturn(new AnimalDTOV1(1, "Tundra", "Tiger", "Female", 5));
+        when(animalDTOMapper.animalToDTOV3(savedAnimal))
+            .thenReturn(new AnimalDTOV3(1, "Tundra", "Female","Tiger", AnimalStatus.HEALTHY, 5, 1));
 
-        AnimalDTOV1 result = animalServiceV1.createAnimal(animalDTOV1);
+        var result = animalService.createAnimal(animalDTO);
 
         assertThat(result.id()).isEqualTo(1);
-        verify(animalDTOMapper).dtoV1ToAnimal(animalDTOV1);
+        verify(animalDTOMapper).dtoV3ToAnimal(animalDTO);
         verify(animalRepository).save(animal);
-        verify(animalDTOMapper).animalToDTOV1(savedAnimal);
+        verify(animalDTOMapper).animalToDTOV3(savedAnimal);
     }
 
     @Test
     void test_get_all_animals_service() {
         when(animalRepository.findAll()).thenReturn(List.of(animal));
 
-        when(animalDTOMapper.animalToDTOV1(any(Animal.class)))
-            .thenReturn(new AnimalDTOV1(1, "Tundra", "Tiger", "Female", 5));
+        when(animalDTOMapper.animalToDTOV3(any(Animal.class)))
+            .thenReturn(new AnimalDTOV3(1, "Tundra", "Female","Tiger", AnimalStatus.HEALTHY, 5, 1));
 
-        List<AnimalDTOV1> result = animalServiceV1.getAllAnimals();
+        List<AnimalDTOV3> result = animalService.getAllAnimals();
 
         verify(animalRepository).findAll();
         assertThat(result).hasSize(1);

@@ -5,6 +5,5 @@ public record AnimalDTOV1(
     String name,
     String sex,
     String species,
-    Integer age,
-    Integer enclosure
+    Integer age
 ) {}

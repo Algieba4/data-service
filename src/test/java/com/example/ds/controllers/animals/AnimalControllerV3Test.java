@@ -1,8 +1,9 @@
 package com.example.ds.controllers.animals;
 
-import com.example.ds.models.dtos.animals.AnimalDTOV1;
+import com.example.ds.enumerations.AnimalStatus;
+import com.example.ds.models.dtos.animals.AnimalDTOV3;
 import com.example.ds.models.entities.Animal;
-import com.example.ds.services.animals.AnimalServiceV1;
+import com.example.ds.services.animals.AnimalServiceV3;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ import static org.mockito.Mockito.when;
  * since Mocking the Controller class won't load the WebConfig configuration class.
  * This will run slightly slower, but more accurate, tests.
  */
-@WebMvcTest(AnimalControllerV1.class)
-class AnimalControllerV1Test {
+@WebMvcTest(AnimalControllerV3.class)
+class AnimalControllerV3Test {
 
-    AnimalDTOV1 animalDTOV1;
+    AnimalDTOV3 animalDTOV3;
 
     @MockitoBean
-    AnimalServiceV1 animalServiceV1;
+    AnimalServiceV3 animalServiceV3;
 
     @Autowired
     MockMvc mockMvc;
@@ -41,19 +42,21 @@ class AnimalControllerV1Test {
 
     @BeforeEach
     void setUp() {
-        animalDTOV1 = new AnimalDTOV1(1, "Tundra", "Female", "Tiger", 5);
+        animalDTOV3 = new AnimalDTOV3(
+            1, "Tundra", "Female", "Tiger", AnimalStatus.HEALTHY, 5, 1
+        );
         restTestClient = RestTestClient.bindTo(mockMvc).build();
     }
 
     @Test
     void test_create_and_delete_animal() {
-        when(animalServiceV1.createAnimal(any()))
-            .thenReturn(animalDTOV1);
+        when(animalServiceV3.createAnimal(any()))
+            .thenReturn(animalDTOV3);
 
         restTestClient.post()
-            .uri("/api/v1/animal/")
+            .uri("/api/v3/animal/")
             .contentType(MediaType.APPLICATION_JSON)
-            .body(new AnimalDTOV1(null, "Tundra", "Female", "Tiger", 5))
+            .body(new AnimalDTOV3(null, "Tundra", "Female",  "Tiger",  AnimalStatus.HEALTHY, 5, 1))
             .exchange()
             .expectStatus().isOk()
             .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
@@ -62,10 +65,12 @@ class AnimalControllerV1Test {
                 .jsonPath("$.name").isEqualTo("Tundra")
                 .jsonPath("$.species").isEqualTo("Tiger")
                 .jsonPath("$.sex").isEqualTo("Female")
-                .jsonPath("$.age").isEqualTo(5);
+                .jsonPath("$.status").isEqualTo(AnimalStatus.HEALTHY.toString())
+                .jsonPath("$.age").isEqualTo(5)
+                .jsonPath("$.enclosure").isEqualTo(1);
 
         restTestClient.delete()
-            .uri("/api/v1/animal/1")
+            .uri("/api/v3/animal/1")
             .exchange()
             .expectStatus().isOk();
 
@@ -73,12 +78,12 @@ class AnimalControllerV1Test {
 
     @Test
     void test_get_all_animals() {
-        when(animalServiceV1.getAllAnimals()).thenReturn(
-            List.of(animalDTOV1)
+        when(animalServiceV3.getAllAnimals()).thenReturn(
+            List.of(animalDTOV3)
         );
 
         var animals = restTestClient.get()
-            .uri("/api/v1/animal/")
+            .uri("/api/v3/animal/")
             .exchange()
             .expectStatus().isOk()
             .expectBody(new ParameterizedTypeReference<List<Animal>>() {})
@@ -92,10 +97,10 @@ class AnimalControllerV1Test {
 
     @Test
     void test_get_animal() {
-        when(animalServiceV1.getAnimal(1)).thenReturn(animalDTOV1);
+        when(animalServiceV3.getAnimal(1)).thenReturn(animalDTOV3);
 
         restTestClient.get()
-            .uri("/api/v1/animal/{id}", 1)
+            .uri("/api/v3/animal/{id}", 1)
             .exchange()
             .expectStatus().isOk()
             .expectBody()
@@ -103,18 +108,22 @@ class AnimalControllerV1Test {
                 .jsonPath("$.name").isEqualTo("Tundra")
                 .jsonPath("$.species").isEqualTo("Tiger")
                 .jsonPath("$.sex").isEqualTo("Female")
-                .jsonPath("$.age").isEqualTo(5);
+                .jsonPath("$.status").isEqualTo(AnimalStatus.HEALTHY.toString())
+                .jsonPath("$.age").isEqualTo(5)
+                .jsonPath("$.enclosure").isEqualTo(1);
     }
 
     @Test
     void test_update_animal() {
-        var updatedAnimal = new AnimalDTOV1(1, "Tundra", "Female", "Tiger", 6);
+        var updatedAnimal = new AnimalDTOV3(
+            1, "Tundra", "Female", "Tiger", AnimalStatus.HEALTHY, 6, 1
+        );
 
-        when(animalServiceV1.updateAnimal(eq(1), any(AnimalDTOV1.class)))
+        when(animalServiceV3.updateAnimal(eq(1), any(AnimalDTOV3.class)))
             .thenReturn(updatedAnimal);
 
         restTestClient.put()
-            .uri("/api/v1/animal/{id}", 1)
+            .uri("/api/v3/animal/{id}", 1)
             .contentType(MediaType.APPLICATION_JSON)
             .body(updatedAnimal)
             .exchange()
@@ -125,7 +134,9 @@ class AnimalControllerV1Test {
                 .jsonPath("$.name").isEqualTo("Tundra")
                 .jsonPath("$.species").isEqualTo("Tiger")
                 .jsonPath("$.sex").isEqualTo("Female")
-                .jsonPath("$.age").isEqualTo(6);
+                .jsonPath("$.status").isEqualTo(AnimalStatus.HEALTHY.toString())
+                .jsonPath("$.age").isEqualTo(6)
+                .jsonPath("$.enclosure").isEqualTo(1);
     }
 
 }
