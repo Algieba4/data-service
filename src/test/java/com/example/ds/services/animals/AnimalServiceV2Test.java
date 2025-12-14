@@ -1,6 +1,5 @@
 package com.example.ds.services.animals;
 
-import com.example.ds.enumerations.AnimalStatus;
 import com.example.ds.mappers.AnimalDTOMapper;
 import com.example.ds.models.dtos.animals.AnimalDTOV2;
 import com.example.ds.models.entities.Animal;
