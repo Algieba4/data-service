@@ -9,6 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/// AnimalControllerV3 uses the AnimalDTOV3 class for the following attributes
+/// - Integer id
+/// - String name
+/// - String sex
+/// - String species
+/// - AnimalStatus status
+/// - Integer age
+/// - Integer enclosure
 @RestController
 @RequestMapping(path = "/api/{version}/animal", version = "3.0")
 @RequiredArgsConstructor

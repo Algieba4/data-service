@@ -9,6 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/// AnimalControllerV2 uses the AnimalDTOV2 class for the following attributes
+/// - Integer id
+/// - String name
+/// - String sex
+/// - String species
+/// - Integer age
+/// - Integer enclosure
+///
+/// @deprecated
+/// This controller is marked as depreciated. Although it will stick around for
+/// the next release, we recommend moving over to the v3 version.
+@Deprecated(since = "v3")
 @RestController
 @RequestMapping(path = "/api/{version}/animal", version = "2.0")
 @RequiredArgsConstructor

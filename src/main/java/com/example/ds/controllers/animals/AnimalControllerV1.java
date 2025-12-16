@@ -5,10 +5,23 @@ import com.example.ds.models.dtos.animals.AnimalDTOV1;
 import com.example.ds.services.animals.AnimalServiceV1;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/// AnimalControllerV1 uses the AnimalDTOV1 class for the following attributes
+/// - Integer id,
+/// - String name,
+/// - String sex,
+/// - String species,
+/// - Integer age
+///
+/// @deprecated
+/// This controller is marked as depreciated and will be removed
+/// during the next deployment
+@Deprecated(since = "v2", forRemoval = true)
 @RestController
 @RequestMapping(path = "/api/{version}/animal", version = "1.0")
 @RequiredArgsConstructor
@@ -19,9 +32,13 @@ public class AnimalControllerV1 {
     private final AnimalServiceV1 animalServiceV1;
 
     @GetMapping("/")
-    public List<AnimalDTOV1> getAllAnimals() {
+    public ResponseEntity<List<AnimalDTOV1>> getAllAnimals() {
         animalMetrics.incrementTotalAnimalCalls("v1");
-        return animalServiceV1.getAllAnimals();
+        return ResponseEntity
+            .status(299)
+            .header("Is-Depreciated", "true")
+            .header("Marked-For-Removal", "true")
+            .body(animalServiceV1.getAllAnimals());
     }
 
     @GetMapping("/{id}")
