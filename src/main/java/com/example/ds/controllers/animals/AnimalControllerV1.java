@@ -35,7 +35,7 @@ public class AnimalControllerV1 {
     public ResponseEntity<List<AnimalDTOV1>> getAllAnimals() {
         animalMetrics.incrementTotalAnimalCalls("v1");
         return ResponseEntity
-            .status(299)
+            .status(HttpStatus.OK)
             .header("Is-Depreciated", "true")
             .header("Marked-For-Removal", "true")
             .body(animalServiceV1.getAllAnimals());

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Deprecated(since = "v3")
 @RequiredArgsConstructor
 @Service
 @Slf4j
